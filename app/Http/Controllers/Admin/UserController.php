@@ -14,9 +14,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(15); // User::all();
+        $user = User::first();
+        //return "Ola {$user->name}! ({$user->email})"; // dificilmente retorna strings
 
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index', compact('user'));
     }
 
     public function create()
