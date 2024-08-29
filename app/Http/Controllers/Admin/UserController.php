@@ -14,10 +14,12 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = User::first();
+        //$user = User::first(); -- chamou apenas o primeiro usuario
         //return "Ola {$user->name}! ({$user->email})"; // dificilmente retorna strings
-
-        return view('admin.users.index', compact('user'));
+        //return view('admin.users.index', compact('user'));
+        
+        $users = User::paginate(15); //para paginar de forma automatica pelo laravel e facilitar o desempenho para nao carregar tudo //User::all(); //parece estatico mas é dinamico
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
