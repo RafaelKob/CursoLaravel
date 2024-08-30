@@ -17,7 +17,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
+    //Nessa parte do fillable é possivel colocar quais colunas serão preenchidas para nao poderem burlar o sistema e colocar informação a mais em colunas que nao se pode alterar
+    protected $fillable = [ 
         'name',
         'email',
         'password',

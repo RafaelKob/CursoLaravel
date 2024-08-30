@@ -22,18 +22,26 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function create()
-    {
-        return view('admin.users.create');
+    public function create(){
+        return view('admin.users.create'); //convenção deixar o nome do metodo com o mesmo nome da view 'create'
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(Request $request) //simplificação do laravel, dessa forma não preciso colocar na função $request = new Request;
     {
+        //dd($request->get('name')); //da pra pegar apenas o nome dessa forma ou outro dado
+        //dd($request->all()); pegaria todos com o all
+        //dd($request->except('_token')); dd serve para verificar qual array estara requisitando
+        User::create($request->all());
+
+        return redirect() -> route('users.index'); //retorna para a pagina de registro automaticamente
+
+        /* criada pelo professor do curso
         User::create($request->validated());
 
         return redirect()
             ->route('users.index')
             ->with('success', 'Usuário criado com sucesso');
+        */
     }
 
     public function edit(string $id)

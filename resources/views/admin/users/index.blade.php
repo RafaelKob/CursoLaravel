@@ -8,6 +8,8 @@
 <body>
     <h1>Usuários</h1>
 
+    <a href="{{ route('users.create') }}">Adicionar Usuário</a> {{--Adicionar usuario--}}
+
     <table>
         <thead>
             <tr>
