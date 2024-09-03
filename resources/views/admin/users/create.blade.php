@@ -6,13 +6,21 @@
 
     <h1>Novo Usuário</h1>
 
+    @if($errors->any())
+        <ul>
+            @foreach($errors->all() as $error)
+             <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
     <form action="{{ route('users.store') }}" method="POST">
         @csrf() {{--Autenticação usando função do laravel--}}
         {{-- Forma de autentificação via token de forma geral
             <input type="text" name="_token" value="{{ csrf_token() }}">
         --}}
-        <input type="text" name="name" placeholder="Nome">
-        <input type="email" name="email" placeholder="E-mail">
+        <input type="text" name="name" placeholder="Nome" value="{{ old('name') }}">
+        <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}">
         <input type="password" name="password" placeholder="Senha">
         <button type="submit">Cadastrar</button>
     </form>

@@ -20,20 +20,20 @@ class StoreUserRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|min:3|max:255',
+        return[
+            'name' => 'required|string|min:1|max:255',
             'email' => [
                 'required',
                 'email',
-                // 'unique:users,email',
-                Rule::unique('users', 'email')->ignore($this->user, 'id')
+                'unique:users,email',
             ],
             'password' => [
                 'required',
-                'min:6',
-                'max:20',
+                'min: 6',
+                'max: 15',
             ]
         ];
     }
