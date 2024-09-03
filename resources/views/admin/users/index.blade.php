@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends('admin.layouts.app1')
+
+@section('title', 'Listagem dos usuários')
+
+@section('content')
+
+{{-- Dentro da seção content coloca o conteudo dinamico da pagina --}}
+
     <h1>Usuários</h1>
 
     <a href="{{ route('users.create') }}">Adicionar Usuário</a> {{--Adicionar usuario--}}
@@ -45,5 +45,5 @@
     </table>
 
     {{ $users->links() }} {{-- Para fazer os links automaticos de paginação do comando usado no Usercontroler.php --}}
-</body>
-</html>
+
+@endsection
