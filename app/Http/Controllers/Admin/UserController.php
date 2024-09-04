@@ -49,6 +49,15 @@ class UserController extends Controller
 
     public function edit(string $id)
     {
+        //$user = User::where('id', '=', $id)->fists(); //o comando where serve para buscar o user correto - primeiro campo a coluna, segundo campo qual comparação sera feita, e com qual variavel
+        //$user = User::where('id', $id)->fists(); //por padrão a comparação é de igual entao nao precisa por, poderia usar firstorfail() que retornaria erro 404 ao invez de null
+        if (!$user = User::find($id)) {
+            return redirect()->route('users.index')->with('message', 'Usuario não encontrado');
+        }
+        return view('admin.users.edit', compact('user'));
+
+
+        /* Feito pelo professor do curso
         // $user = User::where('id', '=', $id)->first();
         // $user = User::where('id', $id)->first(); // ->firstOrFail();
         if (!$user = User::find($id)) {
@@ -56,10 +65,25 @@ class UserController extends Controller
         }
 
         return view('admin.users.edit', compact('user'));
+        */
     }
 
     public function update(UpdateUserRequest $request, string $id)
-    {
+    {   
+        if (!$user = User::find($id)) {
+            return back()->with('message', 'Usuario não encontrado');
+        }
+        $user -> update($request->only([
+            'name',
+            'email'
+        ]));
+
+        return redirect() 
+                    -> route('users.index') //retorna para a pagina de registro automaticamente
+                    -> with('success', 'Usuário editado com sucesso');
+
+
+        /*
         if (!$user = User::find($id)) {
             return back()->with('message', 'Usuário não encontrado');
         }
@@ -72,6 +96,7 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', 'Usuário editado com sucesso');
+        */
     }
 
     public function show(string $id)
