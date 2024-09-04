@@ -10,9 +10,7 @@
 
     <a href="{{ route('users.create') }}">Adicionar Usuário</a> {{--Adicionar usuario--}}
 
-    @if(session()->has('success'))
-       {{ session('success') }}
-    @endif
+    <x-alert/> {{-- utilizando o component criado alert.blade.php --}}
 
     <table>
         <thead>

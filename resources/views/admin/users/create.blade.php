@@ -6,13 +6,8 @@
 
     <h1>Novo Usuário</h1>
 
-    @if($errors->any())
-        <ul>
-            @foreach($errors->all() as $error)
-             <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    {{-- @include('admin.includes.errors') poderia fazer assim para informar erros--}}
+    <x-alert/> {{-- utilizando o component criado alert.blade.php --}}
 
     <form action="{{ route('users.store') }}" method="POST">
         @csrf() {{--Autenticação usando função do laravel--}}
