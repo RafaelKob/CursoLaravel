@@ -28,7 +28,8 @@ class StoreUserRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                'unique:users,email',
+                //'unique:users,email', configurar de forma manual, mas da pra utilizar rule do laravel
+                Rule::unique('users', 'email')->ignore($this->user, 'id') //user é o nome da variavel passado nas rotas -- ignore compara o id do usuario com o email do usuario, se for email de outra pessoa ele vai dar erro de email ja usado
             ],
             'password' => [
                 'required',

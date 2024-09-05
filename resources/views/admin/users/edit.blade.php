@@ -15,7 +15,7 @@
         <input type="text" name="name" placeholder="Nome" value="{{ $user->name }}">
         <input type="email" name="email" placeholder="E-mail" value="{{ $user->email }}">
         <input type="password" name="password" placeholder="Senha"> {{--tirar se nao quiser deixar usuario mudar a senha dessa forma--}}
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Editar</button>
     </form>
 
 @endsection

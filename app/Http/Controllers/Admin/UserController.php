@@ -31,7 +31,7 @@ class UserController extends Controller
         //dd($request->get('name')); //da pra pegar apenas o nome dessa forma ou outro dado
         //dd($request->all()); pegaria todos com o all
         //dd($request->except('_token')); dd serve para verificar qual array estara requisitando
-        User::create($request->all());
+        User::create($request->validated()); //pega apenas valores validados
 
         return redirect() 
                     -> route('users.index') //retorna para a pagina de registro automaticamente
@@ -73,10 +73,14 @@ class UserController extends Controller
         if (!$user = User::find($id)) {
             return back()->with('message', 'Usuario não encontrado');
         }
-        $user -> update($request->only([
-            'name',
-            'email'
-        ]));
+
+        //$data = $request->validated() errado porque o validated pegaria inclusive a senha como null se nao fosse informado nada dando erro
+        $data = $request->only(['name', 'email']);
+        if($request->password) {
+            $data ['password'] = bcrypt($request->password);
+        }
+
+        $user -> update($data);
 
         return redirect() 
                     -> route('users.index') //retorna para a pagina de registro automaticamente
