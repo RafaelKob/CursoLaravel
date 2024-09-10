@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +23,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function create(){
+    public function create() {
         return view('admin.users.create'); //convenção deixar o nome do metodo com o mesmo nome da view 'create'
     }
 
@@ -51,11 +52,12 @@ class UserController extends Controller
     {
         //$user = User::where('id', '=', $id)->fists(); //o comando where serve para buscar o user correto - primeiro campo a coluna, segundo campo qual comparação sera feita, e com qual variavel
         //$user = User::where('id', $id)->fists(); //por padrão a comparação é de igual entao nao precisa por, poderia usar firstorfail() que retornaria erro 404 ao invez de null
+        
+        
         if (!$user = User::find($id)) {
-            return redirect()->route('users.index')->with('message', 'Usuario não encontrado');
+            return redirect()->route('users.index')->with('message', 'edit Usuario não encontrado');
         }
         return view('admin.users.edit', compact('user'));
-
 
         /* Feito pelo professor do curso
         // $user = User::where('id', '=', $id)->first();
@@ -71,7 +73,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {   
         if (!$user = User::find($id)) {
-            return back()->with('message', 'Usuario não encontrado');
+            return back()->with('message', 'update Usuario não encontrado');
         }
 
         //$data = $request->validated() errado porque o validated pegaria inclusive a senha como null se nao fosse informado nada dando erro
@@ -106,14 +108,36 @@ class UserController extends Controller
     public function show(string $id)
     {
         if (!$user = User::find($id)) {
+            return redirect()->route('users.index')->with('message', ' show Usuario não encontrado');
+        }
+        return view('admin.users.show', compact('user'));
+
+        /*
+        if (!$user = User::find($id)) {
             return redirect()->route('users.index')->with('message', 'Usuário não encontrado');
         }
 
         return view('admin.users.show', compact('user'));
+        */
     }
 
     public function destroy(string $id)
     {
+        if (!$user = User::find($id)) {
+            return redirect()->route('users.index')->with('message', 'destroy Usuario não encontrado');
+        }
+
+        if (optional(Auth::user())->id === $user->id) {
+            return redirect()->route('users.index')->with('message', 'Você não pode deletar o seu próprio perfil');
+        }
+        $user->delete();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Usuário deletado com sucesso');
+        
+
+        /*
         // if (Gate::denies('is-admin')) {
         //     return back()->with('message', 'Você não é um administrador');
         // }
@@ -128,5 +152,7 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', 'Usuário deletado com sucesso');
+        */
+        
     }
 }
