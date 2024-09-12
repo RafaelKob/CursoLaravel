@@ -16,10 +16,10 @@ class CheckIfIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->isAdm()) {
+        if (Auth::user()->isAdm()) { //verifica se é adm por meio da função criada dentro de model user
             return $next($request);
         }
 
-        return redirect()->route('home');
+        return redirect()->route('home'); //redireciona automaticamente para a rota 'home' criada se for falso
     }
 }
