@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Auth\Access\Gate as AccessGate;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -123,6 +124,13 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
+        //Da para usar o gate criado para verificar dentro da função se é um admin ao invez de usar o can no blade
+        /*
+        if (Gate::denies('is-admin')) {
+            return redirect()->route('users.index')->with('message', 'Você não é um admnistrador');
+        } */
+
+
         if (!$user = User::find($id)) {
             return redirect()->route('users.index')->with('message', 'destroy Usuario não encontrado');
         }
